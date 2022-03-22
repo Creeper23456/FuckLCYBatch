@@ -19,7 +19,7 @@ LCY是班上的风云人物，电脑大师，在一个风和日丽的上午，�
 
 ## 一键关闭烦人的音乐
 
-- 访问http://api.addr/index.php?enable即可使mainloop.bat工作，停止QQ音乐。
+- 访问 http://api.addr/index.php?enable 即可使mainloop.bat工作，停止QQ音乐。
 
 - 再次访问index.php?disable即可解除。感谢XXH同学的PHP代码。
 
@@ -30,3 +30,4 @@ LCY是班上的风云人物，电脑大师，在一个风和日丽的上午，�
 - 一键关闭烦人的音乐
 
 - 自动更新
+
