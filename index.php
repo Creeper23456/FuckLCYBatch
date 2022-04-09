@@ -1,6 +1,5 @@
 <?php
 define('statusFile', 'hb42lwpl.txt');
-
 if (isset($_REQUEST['status'])) {
     http_response_code(getStatus());
 } elseif (isset($_REQUEST['enable'])) {
@@ -8,7 +7,6 @@ if (isset($_REQUEST['status'])) {
 } elseif (isset($_REQUEST['disable'])) {
     echo setStatus(200);
 }
-
 function getStatus()
 {
     if (file_exists(statusFile)) {
@@ -22,7 +20,6 @@ function getStatus()
     }
     return $code;
 }
-
 function setStatus($code)
 {
     return file_put_contents(statusFile, strval($code));
