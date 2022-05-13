@@ -1,41 +1,76 @@
 @echo off
+::change your api url in here,apply for all batch script.
+set url=https://api.klpnb.cn/
+goto check
+
+:check
+curl
+if "%url%" == "" ( goto no_url )
+if %errorlevel% == 9009 ( goto no_curl )
+if not exist url.txt ( echo %url%>url.txt)
+set /p api_addr=<url.txt
 if not exist version.txt ( goto install )
+goto update
+
+:no_curl
+cls
+title ERROR
+echo Your computer don't have cURL binary file,please install it in your system PATH
+pause
+exit
+
+:no_url
+cls
+title ERROR
+echo Your main.bat file don't set the url address properly,please change it.
+pause
+exit
+
+:update
 
 set /p version=<version.txt
-curl -o version.txt https://api.klpnb.cn/version.txt
+
+echo Getting info form server...
+curl -o version.txt %api_addr%version.txt
+cls
+
 set /p lastest_version=<version.txt
 
-set main_version=1
-curl -o main_version.txt https://api.klpnb.cn/main_version.txt
-set /p lastest_main_version=<main_version.txt
-
-if not %main_version% == %lastest_main_version% ( goto main_updater )
 if not %version% == %lastest_version% ( goto updater )
-if not %errorlevel% == 1 ( goto wallpaper_download )
+if %errorlevel% == 0 ( goto mainloop_start )
 
-
-:wallpaper_download
-set %errorlevel%=0
-curl -o wallpaper.jpg https://api.klpnb.cn/wallpaper.jpg
-if %errorlevel% == 1 ( goto wallpaper_download ) 
-if not %errorlevel% == 1 ( goto mainloop_start )
+goto update
 
 :install
-curl -o version.txt https://api.klpnb.cn/version.txt
+echo Setting up...
+curl -o version.txt %api_addr%version.txt
+cls
 goto updater
 
-:main_updater
-
 :updater
-curl -o mainloop.bat https://api.klpnb.cn/mainloop.bat
-curl -o msg.vbs https://api.klpnb.cn/msg.vbs
-curl -o invisible.vbs https://api.klpnb.cn/invisible.vbs
-curl -o wallpaper.bat https://api.klpnb.cn/wallpaper.bat
-rem if not exist ffplay.exe ( curl -o ffplay.exe https://api.klpnb.cn/ffplay.exe )
+echo Downloading update... 0/4
+curl -o invisible.vbs %api_addr%invisible.vbs
 
-curl -o main.bat https://api.klpnb.cn/main.bat
-invisible.vbs main.bat
+cls
+echo Downloading update... 1/4
+curl -o mainloop.bat %api_addr%mainloop.bat
+
+cls
+echo Downloading update... 2/4
+curl -o wallpaper.bat %api_addr%wallpaper.bat
+
+cls
+echo Downloading update... 3/4
+curl -o wallpaper_updater.bat %api_addr%wallpaper_updater.bat
+
+cls
+echo Downloading update... 4/4
+curl -o main.bat %api_addr%main.bat
+
+if not %errorlevel% == 0 ( cls & echo Having issues with network connection,retry. & goto updater )
+goto mainloop_start
 
 :mainloop_start
 invisible.vbs mainloop.bat
 invisible.vbs wallpaper.bat
+invisible.vbs wallpaper_updater.bat

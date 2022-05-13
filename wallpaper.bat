@@ -1,4 +1,5 @@
 @echo off
+set /p api_addr=<url.txt
 title fuck LCY wallpaper changer
 
 goto mainloop
