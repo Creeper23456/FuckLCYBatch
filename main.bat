@@ -1,6 +1,6 @@
 @echo off
 ::change your api url in here,apply for all batch script.
-set url=https://api.klpnb.cn/
+set url=
 goto check
 
 :check
